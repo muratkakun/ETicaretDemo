@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ETicaretDemoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Kampanya">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KBaslik" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="KAciklama" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="KResimYolu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="RefUrun" Type="Int32" />
+    <NavigationProperty Name="Urunler" Relationship="ETicaretDemoModel.FK_Kampanya_Urunler" FromRole="Kampanya" ToRole="Urunler" />
+  </EntityType>
+  <EntityType Name="Resimler">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ResimYolu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="RefProduct" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Urunler" Relationship="Self.FK_Resimler_Urunler" FromRole="Resimler" ToRole="Urunler" />
+  </EntityType>
+  <EntityType Name="Urunler">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Baslik" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Aciklama" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ResimYolu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Fiyat" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="Kategori" Type="Int32" />
+    <NavigationProperty Name="Resimler" Relationship="Self.FK_Resimler_Urunler" FromRole="Urunler" ToRole="Resimler" />
+    <NavigationProperty Name="Kampanya" Relationship="ETicaretDemoModel.FK_Kampanya_Urunler" FromRole="Urunler" ToRole="Kampanya" />
+    <Property Name="Puanlama" Type="Int32" />
+    <NavigationProperty Name="SiparisDetay" Relationship="ETicaretDemoModel.FK_SiparisDetay_Urunler" FromRole="Urunler" ToRole="SiparisDetay" />
+    <NavigationProperty Name="Sepet" Relationship="ETicaretDemoModel.FK_Sepet_Urunler" FromRole="Urunler" ToRole="Sepet" />
+  </EntityType>
+  <Association Name="FK_Resimler_Urunler">
+    <End Role="Urunler" Type="Self.Urunler" Multiplicity="1" />
+    <End Role="Resimler" Type="Self.Resimler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Urunler">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Resimler">
+        <PropertyRef Name="RefProduct" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ETicaretDemoEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Kampanya" EntityType="Self.Kampanya" />
+    <EntitySet Name="Resimler" EntityType="Self.Resimler" />
+    <EntitySet Name="Urunler" EntityType="Self.Urunler" />
+    <AssociationSet Name="FK_Resimler_Urunler" Association="Self.FK_Resimler_Urunler">
+      <End Role="Urunler" EntitySet="Urunler" />
+      <End Role="Resimler" EntitySet="Resimler" />
+    </AssociationSet>
+    <EntitySet Name="sysdiagrams" EntityType="ETicaretDemoModel.sysdiagrams" />
+    <AssociationSet Name="FK_Kampanya_Urunler" Association="ETicaretDemoModel.FK_Kampanya_Urunler">
+      <End Role="Urunler" EntitySet="Urunler" />
+      <End Role="Kampanya" EntitySet="Kampanya" />
+    </AssociationSet>
+    <EntitySet Name="Musteri" EntityType="ETicaretDemoModel.Musteri" />
+    <EntitySet Name="MusteriAdres" EntityType="ETicaretDemoModel.MusteriAdres" />
+    <AssociationSet Name="FK_MusteriAdres_Musteri" Association="ETicaretDemoModel.FK_MusteriAdres_Musteri">
+      <End Role="Musteri" EntitySet="Musteri" />
+      <End Role="MusteriAdres" EntitySet="MusteriAdres" />
+    </AssociationSet>
+    <EntitySet Name="Kategori" EntityType="ETicaretDemoModel.Kategori" />
+    <AssociationSet Name="FK_Urunler_Kategori1" Association="ETicaretDemoModel.FK_Urunler_Kategori1">
+      <End Role="Kategori" EntitySet="Kategori" />
+      <End Role="Urunler" EntitySet="Urunler" />
+    </AssociationSet>
+    <EntitySet Name="Siparis" EntityType="ETicaretDemoModel.Siparis" />
+    <EntitySet Name="SiparisDetay" EntityType="ETicaretDemoModel.SiparisDetay" />
+    <AssociationSet Name="FK_Siparis_MusteriAdres" Association="ETicaretDemoModel.FK_Siparis_MusteriAdres">
+      <End Role="MusteriAdres" EntitySet="MusteriAdres" />
+      <End Role="Siparis" EntitySet="Siparis" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SiparisDetay_Siparis" Association="ETicaretDemoModel.FK_SiparisDetay_Siparis">
+      <End Role="Siparis" EntitySet="Siparis" />
+      <End Role="SiparisDetay" EntitySet="SiparisDetay" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SiparisDetay_Urunler" Association="ETicaretDemoModel.FK_SiparisDetay_Urunler">
+      <End Role="Urunler" EntitySet="Urunler" />
+      <End Role="SiparisDetay" EntitySet="SiparisDetay" />
+    </AssociationSet>
+    <EntitySet Name="Sepet" EntityType="ETicaretDemoModel.Sepet" />
+    <AssociationSet Name="FK_Sepet_Musteri" Association="ETicaretDemoModel.FK_Sepet_Musteri">
+      <End Role="Musteri" EntitySet="Musteri" />
+      <End Role="Sepet" EntitySet="Sepet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sepet_Urunler" Association="ETicaretDemoModel.FK_Sepet_Urunler">
+      <End Role="Urunler" EntitySet="Urunler" />
+      <End Role="Sepet" EntitySet="Sepet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Kampanya_Urunler">
+    <End Type="ETicaretDemoModel.Urunler" Role="Urunler" Multiplicity="0..1" />
+    <End Type="ETicaretDemoModel.Kampanya" Role="Kampanya" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Urunler">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Kampanya">
+        <PropertyRef Name="RefUrun" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Musteri">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KullaniciAdi" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Sifre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Ad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Soyad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Telefon" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="MusteriAdres" Relationship="ETicaretDemoModel.FK_MusteriAdres_Musteri" FromRole="Musteri" ToRole="MusteriAdres" />
+    <NavigationProperty Name="Sepet" Relationship="ETicaretDemoModel.FK_Sepet_Musteri" FromRole="Musteri" ToRole="Sepet" />
+  </EntityType>
+  <EntityType Name="MusteriAdres">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Adres" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="AdresTanim" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RefMusteri" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Musteri" Relationship="ETicaretDemoModel.FK_MusteriAdres_Musteri" FromRole="MusteriAdres" ToRole="Musteri" />
+    <NavigationProperty Name="Siparis" Relationship="ETicaretDemoModel.FK_Siparis_MusteriAdres" FromRole="MusteriAdres" ToRole="Siparis" />
+  </EntityType>
+  <Association Name="FK_MusteriAdres_Musteri">
+    <End Type="ETicaretDemoModel.Musteri" Role="Musteri" Multiplicity="1" />
+    <End Type="ETicaretDemoModel.MusteriAdres" Role="MusteriAdres" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Musteri">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="MusteriAdres">
+        <PropertyRef Name="RefMusteri" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Kategori">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Baslik" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UstKategori" Type="Int32" Nullable="false" />
+    <Property Name="isActive" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Urunler_Kategori1">
+    <End Type="ETicaretDemoModel.Kategori" Role="Kategori" Multiplicity="0..1" />
+    <End Type="ETicaretDemoModel.Urunler" Role="Urunler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kategori">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Urunler">
+        <PropertyRef Name="Kategori" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Siparis">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AliciAdi" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AliciSoyadi" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RefAdres" Type="Int32" Nullable="false" />
+    <Property Name="AliciTelefon" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="true" />
+    <Property Name="ToplamFiyat" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <Property Name="KayitTarihi" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="MusteriAdres" Relationship="ETicaretDemoModel.FK_Siparis_MusteriAdres" FromRole="Siparis" ToRole="MusteriAdres" />
+    <NavigationProperty Name="SiparisDetay" Relationship="ETicaretDemoModel.FK_SiparisDetay_Siparis" FromRole="Siparis" ToRole="SiparisDetay" />
+  </EntityType>
+  <EntityType Name="SiparisDetay">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RefSiparis" Type="Int32" Nullable="false" />
+    <Property Name="RefUrun" Type="Int32" Nullable="false" />
+    <Property Name="Adet" Type="Int32" Nullable="false" />
+    <Property Name="BirimFiyat" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+    <NavigationProperty Name="Siparis" Relationship="ETicaretDemoModel.FK_SiparisDetay_Siparis" FromRole="SiparisDetay" ToRole="Siparis" />
+    <NavigationProperty Name="Urunler" Relationship="ETicaretDemoModel.FK_SiparisDetay_Urunler" FromRole="SiparisDetay" ToRole="Urunler" />
+  </EntityType>
+  <Association Name="FK_Siparis_MusteriAdres">
+    <End Type="ETicaretDemoModel.MusteriAdres" Role="MusteriAdres" Multiplicity="1" />
+    <End Type="ETicaretDemoModel.Siparis" Role="Siparis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MusteriAdres">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Siparis">
+        <PropertyRef Name="RefAdres" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SiparisDetay_Siparis">
+    <End Type="ETicaretDemoModel.Siparis" Role="Siparis" Multiplicity="1" />
+    <End Type="ETicaretDemoModel.SiparisDetay" Role="SiparisDetay" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Siparis">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="SiparisDetay">
+        <PropertyRef Name="RefSiparis" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SiparisDetay_Urunler">
+    <End Type="ETicaretDemoModel.Urunler" Role="Urunler" Multiplicity="1" />
+    <End Type="ETicaretDemoModel.SiparisDetay" Role="SiparisDetay" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Urunler">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="SiparisDetay">
+        <PropertyRef Name="RefUrun" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Sepet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KayitTarihi" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="RefMusteri" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Musteri" Relationship="ETicaretDemoModel.FK_Sepet_Musteri" FromRole="Sepet" ToRole="Musteri" />
+    <Property Name="SepetId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Adet" Type="Int32" Nullable="false" />
+    <Property Name="RefUrun" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Urunler" Relationship="ETicaretDemoModel.FK_Sepet_Urunler" FromRole="Sepet" ToRole="Urunler" />
+  </EntityType>
+  <Association Name="FK_Sepet_Musteri">
+    <End Type="ETicaretDemoModel.Musteri" Role="Musteri" Multiplicity="1" />
+    <End Type="ETicaretDemoModel.Sepet" Role="Sepet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Musteri">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sepet">
+        <PropertyRef Name="RefMusteri" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sepet_Urunler">
+    <End Type="ETicaretDemoModel.Urunler" Role="Urunler" Multiplicity="1" />
+    <End Type="ETicaretDemoModel.Sepet" Role="Sepet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Urunler">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Sepet">
+        <PropertyRef Name="RefUrun" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

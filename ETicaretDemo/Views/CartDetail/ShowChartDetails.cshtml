@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "ShowChartDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model ETicaretDemo.Controllers.ShoppingCartViewModel
+
+<!--cart-->
+<script src="js/simpleCart.min.js"></script>
+<!--cart-->
+<link href="css/animate.min.css" rel="stylesheet">
+<script src="js/wow.min.js"></script>
+
+<script>
+    new WOW().init();
+</script>
+<!--//animation-effect-->
+<!--close-button-->
+<script>
+
+    $(document).ready(function (c) {
+        $('.alert-close').on('click', function (c) {
+            $('.cart-header').fadeOut('slow', function (c) {
+                $('.cart-header').remove();
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function (c) {
+        $('.alert-close1').on('click', function (c) {
+            $('.cart-header1').fadeOut('slow', function (c) {
+                $('.cart-header1').remove();
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function (c) {
+        $('.alert-close2').on('click', function (c) {
+            $('.cart-header2').fadeOut('slow', function (c) {
+                $('.cart-header2').remove();
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        // Document.ready -> link up remove event handler
+        $(".RemoveLink").click(function () {
+            // Get the id from the link
+            var recordToDelete = $(this).attr("data-id");
+            if (recordToDelete != '') {
+                // Perform the ajax post
+                $.post("/CartDetail/RemoveFromCart", { "id": recordToDelete },
+                    function (data) {
+                        // Successful requests get here
+                        // Update the page elements
+                        $('.cart-header').fadeOut('slow', function (c) {
+                            $('.cart-header').remove();
+                        });
+
+                        $('#cart-total').text('Toplam Fiyat : ' + data.CartTotal + "TL");
+                        $('#update-message').text(data.Message);
+                        $('#cart-status').text('Toplam Ürün Sayısı : (' + data.CartCount + ')');
+                        $('.simpleCart_total').text('' + data.CartTotal + ' TL');
+                        $('.simpleCart_quantity').text('(' + data.CartCount + ')');
+
+                    });
+            }
+        });
+    });
+</script>
+<!--//close-button-->
+<!--breadcrumbs-->
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+            <li><a href="Home/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Anasayfa</a></li>
+            <li class="active">Sepetim</li>
+        </ol>
+    </div>
+</div>
+<!--//breadcrumbs-->
+<!--cart-items-->
+<div class="cart-items">
+    <div class="container">
+        <h3 id="cart-status" class="wow fadeInUp animated" data-wow-delay=".5s">Toplam Ürün Sayısı : (@Model.CartItems.Count)</h3>
+        <h3 id="cart-total" class="wow fadeInUp animated" data-wow-delay=".5s">Toplam Fiyat : (@Model.CartTotal TL)</h3>
+        <div id="update-message"></div>
+        @{
+            foreach (var urun in Model.CartItems)
+            {
+                <div class="cart-header wow fadeInUp animated" data-wow-delay=".5s">
+
+                    <div class="cart-sec simpleCart_shelfItem">
+                        <div class="cart-item cyc">
+                            <a href="/Product/Details/@urun.Urunler.id"><img src="@urun.Urunler.ResimYolu" class="img-responsive" alt=""></a>
+                        </div>
+                        <div class="cart-item-info">
+                            <h4><a href="/Product/Details/@urun.Urunler.id">  </a><span>@urun.Urunler.Baslik</span></h4>
+                            <ul class="qty">
+                                <li><p>Adet : @urun.Adet   TL</p></li>
+                                <div class="clearfix"></div>
+                                <li><p>Toplam Fiyat : @urun.Urunler.Fiyat*@urun.Adet   TL</p></li>
+                                <div class="clearfix"></div>
+                                <li><p>@urun.Urunler.Aciklama</p></li>
+
+                            </ul>
+                            <div class="delivery">
+                                <a href="#" class="RemoveLink"
+                                   data-id="@urun.RefUrun">
+                                    SEPETTEN ÇIKAR
+                                </a>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            }
+        }
+        <div style="text-align:center">
+            <div class="btn_form">
+                <p class="add-cart item_add">
+                    @Html.ActionLink("SATIN AL", "MakeOrderPage", "MakeOrder", new { id = Model.CartItems[0].SepetId }, "")
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!--//cart-items-->	

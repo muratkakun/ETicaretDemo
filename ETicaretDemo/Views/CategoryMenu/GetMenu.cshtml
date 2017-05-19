@@ -1,0 +1,104 @@
+﻿@{
+    Layout = null;
+}
+@model IEnumerable<ETicaretDemo.Models.Kategori>
+
+<div class="top-nav navbar navbar-default">
+    <!--header-three-->
+    <div class="container">
+        <nav class="navbar" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <!--navbar-header-->
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav top-nav-info">
+                    <li><a href="/Home/" class="active">Anasayfa</a></li>
+                    @{
+                        var anaMenuler = Model.Where(x=>x.UstKategori == 0);
+                        foreach (var menu in anaMenuler)
+                        {
+                            var altMenuler = Model.Where(kategori => kategori.UstKategori == menu.id);
+
+                            if (altMenuler != null && altMenuler.Count() > 0)
+                            {
+                                <li class="dropdown grid">
+                                    <a href="Product/AllProduct/@menu.id" class="dropdown-toggle list1" data-toggle="dropdown">@menu.Baslik<b class="caret"></b></a>
+                                    <ul class="dropdown-menu multi-column multi-column2">
+                                        <div class="row">
+
+                                            @foreach (var altMenu in altMenuler)
+                                            {
+                                                <div class="col-sm-2 menu-grids">
+                                                    <a href="Product/AllProduct/@altMenu.id" class="dropdown-toggle list1" data-toggle="dropdown"><h4>@altMenu.Baslik</h4></a>
+                                                    @{
+                                                        var altMenuElemanlari = Model.Where(kategori => kategori.UstKategori == altMenu.id);
+                                                        if (altMenuElemanlari != null && altMenuElemanlari.Count() > 0)
+                                                        {
+                                                            <ul class="multi-column-dropdown">
+                                                                @foreach (var menuElemani in altMenuElemanlari)
+                                                                {
+                                                                    <li><a class="list" href="Product/AllProduct/@menuElemani.id">@menuElemani.Baslik</a></li>
+                                                                }
+                                                            </ul>
+                                                        }
+                                                    }
+
+                                                </div>
+                                            }
+
+                                            <div class="clearfix"> </div>
+                                        </div>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a href="Product/AllProduct/@menu.id"><h4>@menu.Baslik</h4></a>
+                                </li>
+                            }
+                        }
+}
+
+                </ul>
+                <div class="clearfix"> </div>
+                <!--//navbar-collapse-->
+                <header class="cd-main-header">
+                    <ul class="cd-header-buttons">
+                        <li><a class="cd-search-trigger" href="#cd-search"> <span></span></a></li>
+                    </ul> <!-- cd-header-buttons -->
+                </header>
+            </div>
+            <!--//navbar-header-->
+
+        </nav>
+        <div id="cd-search" class="cd-search">
+            <form>
+                <input type="search" placeholder="Search...">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

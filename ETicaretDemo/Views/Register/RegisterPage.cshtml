@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "RegisterPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+	<!--breadcrumbs-->
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+            <li><a href="/Home/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Ansayfa</a></li>
+            <li class="active">Kayıt ol</li>
+        </ol>
+    </div>
+</div>
+<!--//breadcrumbs-->
+<!--login-->
+<div class="login-page">
+    <div class="title-info wow fadeInUp animated" data-wow-delay=".5s">
+        <h3 class="title">Kayıt<span> Formu</span></h3>
+        <p>Sitemizin olanaklaraında faydalanmak için kayıt olun </p>
+    </div>
+    <div class="widget-shadow">
+        <div class="login-top wow fadeInUp animated" data-wow-delay=".7s">
+            <h4>Zaten kayıtlı mısınız ?<a href="/Login/LoginPage">  Giriş »</a> </h4>
+        </div>
+        <div class="login-body">
+            <form class="wow fadeInUp animated" action="/Register/RegisterUser" method="post" data-wow-delay=".7s">
+                <input type="text" name="Ad" placeholder="Ad" required="">
+                <input type="text" name="Soyad" placeholder="Soyad" required="">
+                <input type="text" name="Telefon" placeholder="Telefon" required="">
+                <input type="text" name="Email" class="email" placeholder="Email" required="">
+                <input type="text" name="KullaniciAdi" placeholder="KullaniciAdi" required="">
+                <input type="password" name="Sifre" class="lock" placeholder="Şifre">
+                <input type="submit" name="Register" value="Kayıt ol">
+               
+            </form>
+        </div>
+    </div>
+</div>
+<!--//login-->

@@ -1,0 +1,64 @@
+﻿@{
+    Layout = null;
+}
+@model IEnumerable<ETicaretDemo.Models.Kampanya>
+<!--FlexSlider-->
+<script defer src="/Content/js/jquery.flexslider.js"></script>
+<script type="text/javascript">
+    $(window).load(function () {
+        $('.flexslider').flexslider({
+            animation: "pagination",
+            start: function (slider) {
+                $('body').removeClass('loading');
+            }
+        });
+    });
+</script>
+<!--End-slider-script-->
+
+<!--trend-->
+<div class="trend wow zoomIn animated" data-wow-delay=".5s">
+    <div class="container">
+        <div class="title-info wow fadeInUp animated" data-wow-delay=".5s">
+            <h3 class="title">Güncel<span> Kampanyalar</span></h3>
+            <p>Güncel ürün kampanyalarından buradan erişebilirsiniz. </p>
+        </div>
+        <div class="trend-info">
+            <section class="slider grid">
+                <div class="flexslider trend-slider">
+                    <ul class="slides">
+                        @foreach (var kampanya in Model)
+                        {
+                            int refId = 0;
+                            int.TryParse(Convert.ToString(kampanya.RefUrun), out refId);
+
+                            <li>
+                                <div class="col-md-5 trend-left">
+                                    <img src="/@kampanya.KResimYolu" alt="" />
+                                </div>
+                                <div class="col-md-7 trend-right">
+                                    <h4>BU KAMPANYA  <span>KAÇMAZ!</span></h4>
+                                    <h5>@kampanya.KBaslik</h5>
+                                    <p>@kampanya.KAciklama</p>
+
+                                    @if (refId > 0)
+                                    {
+                                        <span style="color:white;font-weight:bold;">
+                                            <a href="/Product/Details/@kampanya.RefUrun">Devamı...</a>
+                                        </span>
+                                    }
+                                </div>
+
+
+                                <div class="clearfix"></div>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<!--//trend-->
+<!--//banner-->

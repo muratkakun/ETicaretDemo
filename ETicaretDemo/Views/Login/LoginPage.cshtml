@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "LoginPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--breadcrumbs-->
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1 animated wow fadeInUp" data-wow-delay=".5s">
+            <li><a href="Home/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Anasayfa</a></li>
+            <li class="active">Giriş</li>
+        </ol>
+    </div>
+</div>
+<!--//breadcrumbs-->
+<!--login-->
+<div class="login-page">
+    <div class="title-info wow fadeInUp animated" data-wow-delay=".5s">
+        <h3 class="title">Giriş<span> Formu</span></h3>
+        <p>Site avantajları için giris yapın </p>
+    </div>
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div style="text-align:center">
+            <p style="color:red;font-weight:bold;text-align:center">@TempData["ErrorMessage"]</p>
+        </div>
+
+        <div class="clearfix"></div>
+    }
+    <div class="widget-shadow">
+        <div class="login-top wow fadeInUp animated" data-wow-delay=".7s">
+            <h4>E Ticaret Demo ya hoşgeldiniz<br> Üye değil misiniz? <a href="/Register/RegisterPage">  Kayıt ol »</a> </h4>
+        </div>
+       
+
+        <div class="login-body wow fadeInUp animated" data-wow-delay=".7s">
+            <form action="/Login/LoginControl" method="post">
+                <input type="text" class="user" name="KullaniciAdi" placeholder="Kullanıcı giriniz" required="">
+                <input type="password" name="Sifre" class="lock" placeholder="Şifre giriniz">
+                <input type="submit" name="Sign In" value="Sign In">
+                <div class="forgot-grid">
+                    <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Beni hatıtla</label>
+                    <div class="forgot">
+                        <a href="#">Şifremi unuttum?</a>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </form>
+        </div>
+    </div>
+  
+    <div class="login-page-bottom">
+        <h5> - Veya -</h5>
+        <div class="social-btn"><a href="#"><i>Facebook ile giriş yap</i></a></div>
+        <div class="social-btn sb-two"><a href="#"><i>Twitter ile giriş yap</i></a></div>
+    </div>
+</div>
+<!--//login-->
+<!--search jQuery-->
+<script src="/Content/js/main.js"></script>
+<!--//search jQuery-->
+<!--smooth-scrolling-of-move-up-->
+<script type="/Content/text/javascript">
+    $(document).ready(function() {
+
+        var defaults = {
+            containerID: 'toTop', // fading element id
+            containerHoverID: 'toTopHover', // fading element hover id
+            scrollSpeed: 1200,
+            easingType: 'linear'
+        };
+
+        $().UItoTop({ easingType: 'easeOutQuart' });
+
+    });
+</script>
+<!--//smooth-scrolling-of-move-up-->
+<!--Bootstrap core JavaScript
+================================================== -->
+<!--Placed at the end of the document so the pages load faster -->
+<script src="/Content/js/bootstrap.js"></script>
